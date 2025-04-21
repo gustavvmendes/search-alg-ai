@@ -1,0 +1,16 @@
+origem,destino,distancia
+Brasília,Goiânia,170
+Brasília,Belo Horizonte,600
+Brasília,Fortaleza,1687
+Brasília,São Paulo,873
+Belo Horizonte, Rio de Janeiro,339
+São Paulo,Rio de Janeiro,357
+Rio de Janeiro,Salvador,1209
+Fortaleza,Salvador,1028
+Fortaleza,Natal,435
+Natal,Salvador,875
+Natal,João Pessoa,151
+João Pessoa,Recife,104
+Recife,Maceió,202
+Maceió,Aracaju,201
+Aracaju,Salvador,277
