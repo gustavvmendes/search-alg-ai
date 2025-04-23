@@ -19,7 +19,8 @@ def carregar_heuristica(destino, arquivo, grafo):
     # heurística admissível: distância aérea até o destino (ou inf se faltar)
     heur = {v: float('inf') for v in grafo.vertices}
     with open(arquivo, newline='', encoding='utf-8') as f:
-        leitor = csv.reader(f); next(leitor)
+        leitor = csv.reader(f)
+        next(leitor)
         for o, d, dist in leitor:
             if d == destino and o in heur:
                 heur[o] = float(dist)
@@ -106,17 +107,35 @@ def main():
         print(f"• Distância aérea     : {traj['dist_aerea']:.1f} km")
         print(f"• Meio mais curto     : {traj['meio_mais_curto']}")
         print(f"• Caminho escolhido   : {traj['caminho_escolhido']}")
-        # 2) Comparativo de eficiência (no grafo terrestre)
+
+        # 2) Comparativo de eficiência (grafo terrestre)
         print("\nComparativo de eficiência (grafo terrestre):")
         heur = carregar_heuristica(destino,
                                    "data/distancias_aereas.csv",
                                    traj["grafo_ter"])
         comp = comparar_algoritmos(inicio, destino,
                                    traj["grafo_ter"], heur)
-        # cabeçalho
         print(f"{'Método':<8} {'Dist (km)':<9} {'Nós':<6} {'Ótimo':<6} {'Tempo(s)':<8} Caminho")
         print("-"*80)
         for m, info in comp.items():
+            dist = f"{info['distância']:.1f}"
+            nos  = info['nós_expandidos']
+            opt  = "Sim" if info['ótimo'] else "Não"
+            t    = f"{info['tempo_s']:.4f}"
+            cam  = "→".join(info['caminho']) if info['caminho'] else "None"
+            print(f"{m:<8} {dist:<9} {nos:<6} {opt:<6} {t:<8} {cam}")
+
+        # 3) Comparativo de eficiência (grafo aéreo)
+        print("\nComparativo de eficiência (grafo aéreo):")
+        g_aer = carregar_distancias("data/distancias_aereas.csv")
+        heur_aer = carregar_heuristica(destino,
+                                       "data/distancias_aereas.csv",
+                                       g_aer)
+        comp_aer = comparar_algoritmos(inicio, destino,
+                                       g_aer, heur_aer)
+        print(f"{'Método':<8} {'Dist (km)':<9} {'Nós':<6} {'Ótimo':<6} {'Tempo(s)':<8} Caminho")
+        print("-"*80)
+        for m, info in comp_aer.items():
             dist = f"{info['distância']:.1f}"
             nos  = info['nós_expandidos']
             opt  = "Sim" if info['ótimo'] else "Não"
